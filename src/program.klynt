@@ -1,0 +1,27 @@
+
+
+let x = 5
+
+func factorial(n) {
+  if n == 0 {
+    return 1
+  } else {
+    return n * factorial(n - 1)
+  }
+}
+
+print(factorial(x))
+
+
+func test(x) {
+  if x < 0 {
+    raise "El valor no puede ser negativo"
+  }
+  return x * 2
+}
+
+try {
+  test(-1)
+} catch e {
+  print("Ocurrió un error: " + e)
+}
