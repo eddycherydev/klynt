@@ -3,4 +3,4 @@
 
 let cliente = {"name": "Coca-Cola", "deuda" : 5000000}
 
-print(cliente)
+print(cliente.get("name"))
