@@ -1,4 +1,12 @@
 // Swiftly grammar for Lark parser
+%import common.WS
+%import common.ESCAPED_STRING
+%ignore WS
+
+LBRACE: "{"
+RBRACE: "}"
+COLON: ":"
+COMMA: ","
 
 ?start: statement+
 
@@ -41,7 +49,8 @@ raise_stmt: "raise" expression
 
 param_list: IDENTIFIER ("," IDENTIFIER)*
 
-?expression: logic_or
+?expression: dict_literal
+           | logic_or
 
 ?logic_or: logic_and
           | logic_or "or" logic_and   -> or_op
@@ -93,6 +102,9 @@ array_literal: "[" [expression ("," expression)*] "]"
 set_literal: "Set" "(" [expression ("," expression)*] ")"
 
 block: "{" statement* "}"
+
+dict_literal: "{" [pair ("," pair)*] "}"
+pair: expression ":" expression
 
 NUMBER: /\d+(\.\d+)?/
 STRING: /"(?:\\.|[^"])*"/

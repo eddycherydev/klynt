@@ -175,9 +175,21 @@ class SwiftlyInterpreter:
             args = [self.eval(arg) for arg in node.get('args', [])]
             return klass.instantiate(self, args)
 
+        if t == 'dict_literal':
+            result = {}
+            for pair in node['pairs']:
+                key = self.eval(pair['key'])
+                value = self.eval(pair['value'])
+                result[key] = value
+            return result
+
         # Soporte para operaciones binarias específicas
         if t == 'add':
-            return self.eval(node['left']) + self.eval(node['right'])
+            left = self.eval(node['left'])
+            right = self.eval(node['right'])
+            if isinstance(left, str) or isinstance(right, str):
+                return str(left) + str(right)
+            return left + right
         if t == 'sub':
             return self.eval(node['left']) - self.eval(node['right'])
         if t == 'mul':
@@ -288,6 +300,52 @@ class SwiftlyInterpreter:
             if isinstance(obj, set):
                 obj.discard(args[0])
                 return None
+            raise Exception(f"Method '{method}' not supported for this type")
+
+        if method == 'first':
+            if isinstance(obj, list):
+                return obj[0] if obj else None
+            raise Exception(f"Method '{method}' not supported for this type")
+
+        if method == 'last':
+            if isinstance(obj, list):
+                return obj[-1] if obj else None
+            raise Exception(f"Method '{method}' not supported for this type")
+
+        if method == 'is_empty':
+            if isinstance(obj, (list, set, dict)):
+                return len(obj) == 0
+            raise Exception(f"Method '{method}' not supported for this type")
+
+        if method == 'clear':
+            if isinstance(obj, (list, set)):
+                obj.clear()
+                return None
+            raise Exception(f"Method '{method}' not supported for this type")
+
+        if method == 'keys':
+            if isinstance(obj, dict):
+                return list(obj.keys())
+            raise Exception(f"Method '{method}' not supported for this type")
+
+        if method == 'values':
+            if isinstance(obj, dict):
+                return list(obj.values())
+            raise Exception(f"Method '{method}' not supported for this type")
+
+        if method == 'items':
+            if isinstance(obj, dict):
+                return list(obj.items())
+            raise Exception(f"Method '{method}' not supported for this type")
+
+        if method == 'get':
+            if isinstance(obj, dict):
+                return obj.get(args[0], None)
+            raise Exception(f"Method '{method}' not supported for this type")
+
+        if method == 'has_key':
+            if isinstance(obj, dict):
+                return args[0] in obj
             raise Exception(f"Method '{method}' not supported for this type")
 
         raise Exception(f"Unknown method '{method}'")

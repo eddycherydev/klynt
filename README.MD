@@ -86,6 +86,42 @@ while i < 5 {
 
 - `print(...)`: Output values to console.
 
+### ✅ Collections
+
+#### Lists
+
+```swiftly
+let items = [1, 2, 3]
+
+print(items.first())     # 1
+print(items.last())      # 3
+print(items.is_empty())  # false
+items.clear()
+print(items.is_empty())  # true
+```
+
+#### Sets
+
+```swiftly
+let s = set(1, 2, 3)
+print(s.is_empty())  # false
+s.clear()
+print(s.is_empty())  # true
+```
+
+#### Dictionaries
+
+```swiftly
+let m = {"name": "Eddy", "age": 35}
+
+print(m.get("name"))        # "Eddy"
+print(m.has_key("email"))   # false
+print(m.keys())             # ["name", "age"]
+print(m.values())           # ["Eddy", 35]
+print(m.items())            # [("name", "Eddy"), ("age", 35)]
+print(m.is_empty())         # false
+```
+
 ---
 
 ## 🧱 Under the Hood

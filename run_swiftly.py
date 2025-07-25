@@ -2,7 +2,7 @@ from lark import Lark
 from transformer import SwiftlyTransformer
 from interpreter import SwiftlyInterpreter
 
-with open("swiftly_lark.txt") as f:
+with open("swiftly_lark.lark") as f:
     grammar = f.read()
 
 parser = Lark(grammar, parser='lalr', start='start')
